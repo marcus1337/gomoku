@@ -1,0 +1,13 @@
+[package]
+name = "gomoku"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "gomoku"
+crate-type = ["staticlib"]
+
+[dependencies]
+libc = "0.2"
+lazy_static = "1.4.0"
+rayon = "1.6.1"
