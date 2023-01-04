@@ -21,7 +21,7 @@ pub enum GameResult {
 #[repr(C)]
 #[derive(Copy, Clone, Debug)]
 pub struct Board{
-    tiles: [[Tile; 15]; 15],
+    pub tiles: [[Tile; 15]; 15],
 }
 
 impl Board {
@@ -73,12 +73,25 @@ impl Board {
         self.tiles.iter().any(|row| row.iter().any(|&tile| tile == Tile::Empty)) 
     }
 
-    fn get_tiles(&self, line: &Line) -> Vec<Tile> {
+    pub fn get_tiles(&self, line: &Line) -> Vec<Tile> {
         let mut tiles = Vec::<Tile>::new();
         for point in &line.points {
             tiles.push(self.get_tile(point.clone()));
         }
         tiles
+    }
+
+    pub fn get_empty_tile_points(&self) -> Vec<Point> {
+        let mut points = Vec::<Point>::new();
+        for col in 0..15 {
+            for row in 0..15 {
+                let point = Point{col:col, row:row};
+                if !self.has_brick(point) {
+                    points.push(point);
+                }
+            }
+        }
+        points
     }
 
     pub fn get_potential_winning_lines(&self, brick: Brick) -> Vec<Line> {
@@ -95,9 +108,9 @@ impl Board {
         potential_lines
     }
 
-    pub fn has_potential_winning_lines(&self, brick: Brick) -> bool {
+    /*pub fn has_potential_winning_lines(&self, brick: Brick) -> bool {
         self.get_potential_winning_lines(brick).len() > 0
-    }
+    }*/
 
     pub fn get_result(&self) -> GameResult {
         if self.has_win_line() {

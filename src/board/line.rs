@@ -79,7 +79,7 @@ impl Line {
         lines
     }
 
-    pub fn get_next_left_point(&self) -> Point {
+    /*pub fn get_next_left_point(&self) -> Point {
         self.points[0] - (self.points[1] - self.points[0])
     }
     pub fn has_next_left_point(&self) -> bool {
@@ -91,7 +91,7 @@ impl Line {
     }
     pub fn has_next_right_point(&self) -> bool {
         self.get_next_right_point().in_bounds()
-    }
+    }*/
 
     pub fn len(&self) -> usize {
         self.points.len()

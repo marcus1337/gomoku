@@ -7,6 +7,16 @@ pub enum Brick{
     Two,
 }
 
+impl Brick {
+    pub fn get_opposite(&self) -> Brick {
+        if *self == Brick::One {
+            return Brick::Two;
+        } else{
+            return Brick::One;
+        }
+    }
+}
+
 #[repr(C)]
 #[derive(Copy, Clone, Debug, PartialEq)]
 pub enum Tile{
@@ -42,9 +52,9 @@ impl Point{
         }
     }
 
-    pub fn in_bounds(&self) -> bool {
+    /*pub fn in_bounds(&self) -> bool {
         self.col >= 0 && self.col < 15 && self.row >= 0 && self.row < 15
-    }
+    }*/
 
     pub fn step_towards(&mut self, other: Point){
         if self.col < other.col {

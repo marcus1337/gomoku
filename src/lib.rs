@@ -1,8 +1,9 @@
 extern crate libc;
 
 pub mod board;
+pub mod ai;
 use self::board::Board;
-use board::line;
+//use board::line;
 use board::tile::Brick;
 use board::tile::Point;
 use board::GameResult;
@@ -29,7 +30,7 @@ impl Gomoku {
 
     #[no_mangle]
     pub extern "C" fn get_ai_move(&self) -> Point {
-        Point { col: -1, row: -1 }
+        ai::get_placement_point(self.board)
     }
 
     #[no_mangle]
