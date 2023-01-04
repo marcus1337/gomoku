@@ -21,7 +21,7 @@ pub enum GameResult {
 #[repr(C)]
 #[derive(Copy, Clone, Debug)]
 pub struct Board{
-    pub tiles: [[Tile; 15]; 15],
+    tiles: [[Tile; 15]; 15],
 }
 
 impl Board {
@@ -33,19 +33,6 @@ impl Board {
 
     pub fn reset(&mut self) {
         *self = Board::new();
-    }
-
-    #[no_mangle]
-    pub extern "C" fn has_brick(&self, point: Point) -> bool {
-        self.get_tile(point) != Tile::Empty
-    }
-    #[no_mangle]
-    pub extern "C" fn get_brick(&self, point: Point) -> Brick {
-        let brick = match self.get_tile(point){
-            Tile::Brick(brick) => brick,
-            _ => panic!("Invalid value"),
-        };
-        brick
     }
 
     fn get_tile(&self, point: Point) -> Tile {
@@ -86,8 +73,7 @@ impl Board {
         self.tiles.iter().any(|row| row.iter().any(|&tile| tile == Tile::Empty)) 
     }
 
-    #[no_mangle]
-    pub extern "C" fn get_result(&self) -> GameResult {
+    pub fn get_result(&self) -> GameResult {
         if self.has_win_line() {
             return self.get_winner(self.get_win_line());
         }
@@ -95,6 +81,43 @@ impl Board {
             return GameResult::OnGoing;
         }
         GameResult::Draw
+    }
+
+    pub fn has_brick(&self, point: Point) -> bool {
+        self.get_tile(point) != Tile::Empty
+    }
+
+    pub fn get_brick(&self, point: Point) -> Brick {
+        let brick = match self.get_tile(point){
+            Tile::Brick(brick) => brick,
+            _ => panic!("Invalid value"),
+        };
+        brick
+    }
+
+    pub fn get_num_bricks(&self) -> i32 {
+        let count_bricks = self
+            .tiles
+            .iter()
+            .flatten()
+            .filter(|x| match x {
+                Tile::Brick(_) => true,
+                _ => false,
+            })
+            .count();
+        count_bricks as i32
+    }
+
+    pub fn get_next_brick(&self) -> Brick {
+        if self.get_num_bricks() % 2 == 0 {
+            return Brick::One;
+        } else {
+            return Brick::Two;
+        };
+    }
+
+    pub fn place_brick(&mut self, point: Point){
+        self.tiles[point.col as usize][point.row as usize] = Tile::Brick(self.get_next_brick());
     }
 
 }
