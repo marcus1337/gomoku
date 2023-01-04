@@ -53,9 +53,9 @@ impl Point{
             self.col -= 1;
         }
         if self.row > other.row {
-            self.row += 1;
-        } else if self.row < other.row {
             self.row -= 1;
+        } else if self.row < other.row {
+            self.row += 1;
         }
     }
 

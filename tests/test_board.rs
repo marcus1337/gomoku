@@ -1,7 +1,7 @@
 
 
 #[cfg(test)]
-mod tests {
+mod board_tests {
     use super::*;
 
     #[test]

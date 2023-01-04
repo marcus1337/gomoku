@@ -1,7 +1,9 @@
 
 extern crate libc;
+
 pub mod board;
 use self::board::Board;
+use board::line;
 
 #[repr(C)]
 pub struct Gomoku {
