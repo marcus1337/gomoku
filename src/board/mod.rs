@@ -73,6 +73,32 @@ impl Board {
         self.tiles.iter().any(|row| row.iter().any(|&tile| tile == Tile::Empty)) 
     }
 
+    fn get_tiles(&self, line: &Line) -> Vec<Tile> {
+        let mut tiles = Vec::<Tile>::new();
+        for point in &line.points {
+            tiles.push(self.get_tile(point.clone()));
+        }
+        tiles
+    }
+
+    pub fn get_potential_winning_lines(&self, brick: Brick) -> Vec<Line> {
+        let mut potential_lines = Vec::<Line>::new();
+        let potential_line_3 = [Tile::Empty, Tile::Brick(brick), Tile::Brick(brick), Tile::Brick(brick), Tile::Empty ];
+        let potential_line_4_left = [Tile::Empty, Tile::Brick(brick), Tile::Brick(brick), Tile::Brick(brick), Tile::Brick(brick) ];
+        let potential_line_4_right = [Tile::Brick(brick), Tile::Brick(brick), Tile::Brick(brick), Tile::Brick(brick), Tile::Empty ];
+        for line in Line::get_lines(5) {
+            let tiles: [Tile; 5] = self.get_tiles(&line).try_into().unwrap();
+            if tiles == potential_line_3 || tiles == potential_line_4_left || tiles == potential_line_4_right {
+                potential_lines.push(line);
+            }
+        }
+        potential_lines
+    }
+
+    pub fn has_potential_winning_lines(&self, brick: Brick) -> bool {
+        self.get_potential_winning_lines(brick).len() > 0
+    }
+
     pub fn get_result(&self) -> GameResult {
         if self.has_win_line() {
             return self.get_winner(self.get_win_line());
