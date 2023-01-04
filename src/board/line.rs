@@ -93,5 +93,9 @@ impl Line {
         self.get_next_right_point().in_bounds()
     }
 
+    pub fn len(&self) -> usize {
+        self.points.len()
+    }
+
 }
 
