@@ -1,11 +1,12 @@
 
 pub mod tile;
+pub mod line;
 
-use std::fmt;
-use tile::Point;
+//use std::fmt;
+//use tile::Point;
 use tile::Tile;
-
-use self::tile::Brick;
+//use line::Line;
+//use tile::Brick;
 
 
 #[repr(C)]
@@ -20,7 +21,6 @@ pub enum GameResult {
 #[repr(C)]
 #[derive(Copy, Clone, Debug)]
 pub struct Board{
-
     pub tiles: [[Tile; 15]; 15],
 }
 
