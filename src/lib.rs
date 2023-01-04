@@ -67,4 +67,9 @@ impl Gomoku {
         self.board.place_brick(point);
     }
 
+    #[no_mangle]
+    pub extern "C" fn is_started(&self) -> bool {
+        self.board.has_any_bricks()
+    }
+
 }

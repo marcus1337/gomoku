@@ -112,6 +112,17 @@ impl Board {
         self.get_potential_winning_lines(brick).len() > 0
     }*/
 
+    pub fn has_any_bricks(&self) -> bool {
+        for tile_row in self.tiles {
+            for tile in tile_row {
+                if tile != Tile::Empty {
+                    return true;
+                }
+            }
+        }
+        false
+    }
+
     pub fn get_result(&self) -> GameResult {
         if self.has_win_line() {
             return self.get_winner(self.get_win_line());
